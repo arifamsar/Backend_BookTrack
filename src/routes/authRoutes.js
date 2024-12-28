@@ -5,6 +5,12 @@ const router = express.Router();
 const authController = new AuthController();
 
 /**
+ * @typedef {object} ValidationError
+ * @property {string} message - Error message
+ * @property {object} errors - Validation errors
+ */
+
+/**
  * @typedef {object} RegisterRequest
  * @property {string} username.required - Username (min 3 characters)
  * @property {string} password.required - Password (min 6 characters)
@@ -46,8 +52,8 @@ router.post('/register', authController.register);
  * @tags Auth
  * @param {LoginRequest} request.body.required - User credentials
  * @return {LoginResponse} 200 - Login successful
- * @return {object} 400 - Validation error
- * @return {object} 401 - Invalid credentials
+ * @return {ValidationError} 400 - Validation error
+ * @return {ValidationError} 401 - Invalid credentials
  * @return {object} 500 - Server error
  */
 router.post('/login', authController.login);
