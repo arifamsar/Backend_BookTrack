@@ -1,7 +1,7 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const bookController = require('../controllers/bookController');
-const authMiddleware = require('../middlewares/authMiddleware');
+const bookController = require("../controllers/bookController");
+const authMiddleware = require("../middlewares/authMiddleware");
 
 /**
  * @typedef {object} Book
@@ -17,7 +17,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
 /**
  * @typedef {object} BookRequest
  * @property {string} title.required - Book title
- * @property {string} author.required - Book author 
+ * @property {string} author.required - Book author
  * @property {string} genre.required - Book genre
  * @property {string} description - Book description
  * @property {number} totalPages - Total number of pages
@@ -29,6 +29,11 @@ const authMiddleware = require('../middlewares/authMiddleware');
  * @property {Book} data - Book data
  */
 
+/**
+ * @typedef {object} BookListResponse
+ * @property {string} message - Response message
+ * @property {Book[]} data - List of books
+ */
 
 /**
  * POST /api/books
@@ -40,7 +45,7 @@ const authMiddleware = require('../middlewares/authMiddleware');
  * @return {object} 400 - Validation error
  * @return {object} 500 - Server error
  */
-router.post('/', authMiddleware, bookController.addBook);
+router.post("/", authMiddleware, bookController.addBook);
 
 /**
  * GET /api/books
@@ -51,11 +56,31 @@ router.post('/', authMiddleware, bookController.addBook);
  * @param {string} author.query - Filter by author
  * @param {number} limit.query - Number of books to return
  * @param {number} page.query - Page number for pagination
- * @return {object} 200 - List of books
+ * @return {BookListResponse} 200 - List of books
+ * @example response - 200 - example success response
+ * {
+ *  "message": "Success",
+ *   "data": [
+ *     {
+ *       "_id": "string",
+ *       "title": "string",
+ *       "author": "string",
+ *       "genre": "string",
+ *       "description": "string"
+ *     },
+ *     {
+ *       "_id": "string",
+ *       "title": "string",
+ *       "author": "string",
+ *       "genre": "string",
+ *       "description": "string"
+ *     }
+ *   ]
+ * }
  * @return {object} 401 - Unauthorized
  * @return {object} 500 - Server error
  */
-router.get('/', authMiddleware, bookController.getBooks);
+router.get("/", authMiddleware, bookController.getBooks);
 
 /**
  * GET /api/books/{id}
@@ -68,8 +93,7 @@ router.get('/', authMiddleware, bookController.getBooks);
  * @return {object} 404 - Book not found
  * @return {object} 500 - Server error
  */
-router.get('/:id', authMiddleware, bookController.getBookById);
-
+router.get("/:id", authMiddleware, bookController.getBookById);
 
 /**
  * PUT /api/books/{id}
@@ -83,7 +107,7 @@ router.get('/:id', authMiddleware, bookController.getBookById);
  * @return {object} 404 - Book not found
  * @return {object} 500 - Server error
  */
-router.put('/:id', authMiddleware, bookController.updateBookById);
+router.put("/:id", authMiddleware, bookController.updateBookById);
 
 /**
  * DELETE /api/books/{id}
@@ -96,6 +120,6 @@ router.put('/:id', authMiddleware, bookController.updateBookById);
  * @return {object} 404 - Book not found
  * @return {object} 500 - Server error
  */
-router.delete('/:id', authMiddleware, bookController.deleteBookById);
+router.delete("/:id", authMiddleware, bookController.deleteBookById);
 
 module.exports = router;
