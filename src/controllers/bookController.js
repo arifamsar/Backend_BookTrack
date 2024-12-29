@@ -29,8 +29,8 @@ class BookController {
 	async getBooks(req, res) {
 		const userId = req.user.id;
 		try {
-			const books = await Book.find({ userId });
-			res.status(200).json({ data: books });
+			const books = await Book.find({ userId }).select('id title author genre description');
+			res.status(200).json({ message: "Success", data: books });
 		} catch (error) {
 			if (error.name === "ValidationError") {
 				const messages = Object.values(error.errors).map((val) => val.message);
@@ -44,7 +44,7 @@ class BookController {
 	async getBookById(req, res) {
 		const { id } = req.params;
 		try {
-			const book = await Book.findById(id);
+			const book = await Book.findById(id).select('id title author genre description totalPages');
 			if (!book) {
 				return res.status(404).json({ message: "Book not found" });
 			}

@@ -5,7 +5,7 @@ class ProfileController {
         const userId = req.user.id;
 
         try {
-            const user = await User.findById(userId).select('-password');
+            const user = await User.findById(userId).select('-password -createdAt -updatedAt -__v');
             if (!user) {
                 return res.status(404).json({ message: 'User not found' });
             }
@@ -39,7 +39,7 @@ class ProfileController {
                 userId,
                 { $set: { username, email } },
                 { new: true }
-            ).select('-password');
+            ).select('-password -createdAt -updatedAt -__v');
 
             if (!updatedUser) {
                 return res.status(404).json({ message: 'User not found' });
