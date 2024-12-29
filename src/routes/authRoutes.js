@@ -40,8 +40,8 @@ const authController = new AuthController();
  * @summary Register a new user
  * @tags Auth
  * @param {RegisterRequest} request.body.required - User info
- * @return {object} 201 - User registered successfully
- * @return {object} 400 - Username already exists
+ * @return {RegisterResponse} 201 - User registered successfully
+ * @return {ValidationError} 400 - Validation error
  * @return {object} 500 - Server error
  */
 router.post('/register', authController.register);

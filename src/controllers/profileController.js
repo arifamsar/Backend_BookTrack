@@ -29,6 +29,12 @@ class ProfileController {
             }
 
             if (email) {
+                // Validate email format
+                const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+                if (!email.match(emailRegex)) {
+                    return res.status(400).json({ message: 'Invalid email format' });
+                }
+
                 const existingEmail = await User.findOne({ email, _id: { $ne: userId } });
                 if (existingEmail) {
                     return res.status(400).json({ message: 'Email already registered' });
