@@ -23,4 +23,4 @@ const generateSampleBooks = async (userId) => {
     await Book.insertMany(sampleBooks);
 }
 
-module.exports = generateSampleBooks;
+module.exports = { generateSampleBooks };
