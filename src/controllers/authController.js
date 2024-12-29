@@ -1,6 +1,7 @@
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const { generateSampleBooks } = require("../utils/generateData");
 
 class AuthController {
 	async register(req, res) {
@@ -26,6 +27,10 @@ class AuthController {
 			// Create new user
 			const newUser = new User({ username, password: hashedPassword, email });
 			await newUser.save();
+
+			// Generate sample books for the user
+			await generateSampleBooks(newUser._id);
+			
 			res.status(201).json({ message: "User registered successfully" });
 		} catch (error) {
 			res.status(500).json({ message: "Server error", error: error.message });
