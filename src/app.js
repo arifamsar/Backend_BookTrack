@@ -24,13 +24,9 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/profile', profileRoutes);
-
-// handle undefined routes
-app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
-});
-
 setupSwagger(app);
+
+
 
 app.listen(PORT, HOST, () => {
   console.log(`Server is running on http://${HOST}:${PORT}`);
