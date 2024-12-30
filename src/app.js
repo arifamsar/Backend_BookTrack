@@ -6,6 +6,7 @@ const authRoutes = require('./routes/authRoutes');
 const profileRoutes = require('./routes/profileRoutes');
 const bookRoutes = require('./routes/bookRoutes');
 const setupSwagger = require('./swagger');
+const router = express.Router();
 
 dotenv.config();
 
@@ -23,6 +24,11 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use('/api/auth', authRoutes);
 app.use('/api/books', bookRoutes);
 app.use('/api/profile', profileRoutes);
+
+// handle undefined routes
+app.use((req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
 setupSwagger(app);
 
